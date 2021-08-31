@@ -46,7 +46,6 @@
 ## feature tasks (lab 28)
 - Add a RecyclerView, its away of create a partial UI can use over and over can use it inside application
 - Represent all tasks
-
 ![homepage](./ScreenShots/lab28.PNG)
 ![homepage](./ScreenShots/lab28-2.PNG)
 

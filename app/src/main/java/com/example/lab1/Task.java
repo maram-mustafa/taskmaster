@@ -13,6 +13,7 @@ public class Task {
     }
 }
 
+////////// NOTES:
 // away of create a partial UI can use over and over can use it inside application
 // crete part ui that present each task
 // fragment to present one single task in list
