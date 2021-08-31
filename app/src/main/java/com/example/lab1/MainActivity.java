@@ -1,6 +1,8 @@
 package com.example.lab1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +12,31 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //////////////////////////////////////////// lab 28///////////////////////////////////////////
+
+        // create data
+        ArrayList <Task> allTasks = new ArrayList<Task>();
+        allTasks.add(new Task("lab26" , "done with lab 26" , "complete"));
+        allTasks.add(new Task("lab27" , "finished","assigned"));
+        allTasks.add(new Task("lab28" , "working on it","in progress"));
+        allTasks.add(new Task("lab29" , "not open yet" , "new"));
+
+
+        RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
+        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
+
+
+        allTasksRecyclerView.setAdapter(new TaskAdapter(allTasks));
+
 
         /////////////////////////////////////////////// lab 26 ////////////////////////////////////
 
@@ -128,5 +149,4 @@ public class MainActivity extends AppCompatActivity {
             TextView userNameview = findViewById(R.id.userNameTasks);
             userNameview.setText(userName + " " + userNameTasks);
         }
-
     }
