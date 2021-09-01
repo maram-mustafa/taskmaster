@@ -3,6 +3,7 @@ package com.example.lab1;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    AppDatabase appDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        appDatabase =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task").allowMainThreadQueries().allowMainThreadQueries().build();
 
         //////////////////////////////////////////// lab 28///////////////////////////////////////////
 
@@ -30,13 +34,10 @@ public class MainActivity extends AppCompatActivity {
         allTasks.add(new Task("lab28" , "working on it","in progress"));
         allTasks.add(new Task("lab29" , "not open yet" , "new"));
 
-
         RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
         allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
 
-
         allTasksRecyclerView.setAdapter(new TaskAdapter(allTasks));
-
 
         /////////////////////////////////////////////// lab 26 ////////////////////////////////////
 
