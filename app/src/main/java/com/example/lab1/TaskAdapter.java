@@ -1,5 +1,6 @@
 package com.example.lab1;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView=itemView; // set View to the one will pass
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent goToDetailsPage = new Intent(view.getContext(), Detail.class);
+                    goToDetailsPage.putExtra("task", task.body);
+                    view.getContext().startActivity(goToDetailsPage);
+
+                }
+            });
+
         }
     }
 
