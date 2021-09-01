@@ -14,30 +14,44 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     AppDatabase appDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appDatabase =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "task").allowMainThreadQueries().allowMainThreadQueries().build();
+        ////////////////////////////////////////// lab 29////////////////////////////////////////////
 
-        //////////////////////////////////////////// lab 28///////////////////////////////////////////
+        appDatabase  =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskdatabase").allowMainThreadQueries()
+                .build();
 
-        // create data
-        ArrayList <Task> allTasks = new ArrayList<Task>();
-        allTasks.add(new Task("lab26" , "done with lab 26" , "complete"));
-        allTasks.add(new Task("lab27" , "finished","assigned"));
-        allTasks.add(new Task("lab28" , "working on it","in progress"));
-        allTasks.add(new Task("lab29" , "not open yet" , "new"));
+        TaskDao taskDao = appDatabase.taskDao();
+        List<Task> tasks = taskDao.getAll();
 
         RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
         allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
 
-        allTasksRecyclerView.setAdapter(new TaskAdapter(allTasks));
+        allTasksRecyclerView.setAdapter(new TaskAdapter(tasks));
+        //////////////////////////////////////////// lab 28///////////////////////////////////////////
+
+////         create data
+//        ArrayList <Task> allTasks = new ArrayList<Task>();
+//        allTasks.add(new Task("lab26" , "done with lab 26" , "complete"));
+//        allTasks.add(new Task("lab27" , "finished","assigned"));
+//        allTasks.add(new Task("lab28" , "working on it","in progress"));
+//        allTasks.add(new Task("lab29" , "not open yet" , "new"));
+//
+//
+//
+//        RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
+//        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
+//
+//        allTasksRecyclerView.setAdapter(new TaskAdapter(allTasks));
 
         /////////////////////////////////////////////// lab 26 ////////////////////////////////////
 

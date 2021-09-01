@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 // class(model) to represent data for each task
 @Entity
 public class Task {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
     @ColumnInfo(name = "title")
     public String title;
