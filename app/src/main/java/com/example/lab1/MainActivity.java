@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
         ///////////////////// for settings page
         Button settingsPage = findViewById(R.id.settingsPage);
 
-        // listener for task detail
         settingsPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
