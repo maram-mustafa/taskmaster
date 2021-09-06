@@ -57,6 +57,13 @@
 ![homepage](./ScreenShots/lab29-2.PNG)
 
 
+## feature tasks (lab 31)
+- in this lab just added the test for activeties and some buttons 
+- the first thing test if when click on sitting and enter name it will show in the main activety 
+- check if the setting page button it self is display or not
+- check if when click on the item in the recyclerview it will show the detail page or not 
+
+
 
 
 
