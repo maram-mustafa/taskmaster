@@ -71,11 +71,5 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.TaskListRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.BodyDetail)).check(matches(withText("TASK1")));
     }
-
-
-
-
-
-
-
 }
+
