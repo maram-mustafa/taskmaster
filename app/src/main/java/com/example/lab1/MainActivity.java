@@ -1,5 +1,6 @@
 package com.example.lab1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,35 +9,54 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    AppDatabase appDatabase;
+//    AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /////////////////////////////////////////// for api
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
 
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
         ////////////////////////////////////////// lab 29////////////////////////////////////////////
 
-        appDatabase  =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskdatabase").allowMainThreadQueries()
-                .build();
-
-        TaskDao taskDao = appDatabase.taskDao();
-        List<Task> tasks = taskDao.getAll();
-
-        RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
-        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
-
-        allTasksRecyclerView.setAdapter(new TaskAdapter(tasks));
+//        appDatabase  =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "taskdatabase").allowMainThreadQueries()
+//                .build();
+//
+//        TaskDao taskDao = appDatabase.taskDao();
+//        List<Task> tasks = taskDao.getAll();
+//
+//        RecyclerView allTasksRecyclerView = findViewById(R.id.TaskListRecycler);  //get Recycler
+//        allTasksRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // set layout manager
+//
+//        allTasksRecyclerView.setAdapter(new TaskAdapter(tasks));
         //////////////////////////////////////////// lab 28///////////////////////////////////////////
 
 ////         create data
@@ -147,20 +167,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToSittengs);
             }
         });
+        /////////////////////////////// lab 32
+        RecyclerView taskRecyclerView = findViewById(R.id.TaskListRecycler);
+
+        Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback(){
+            @Override
+            public boolean handleMessage(@NonNull Message message) {
+                taskRecyclerView.getAdapter().notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        List<Task> taskList = new ArrayList<Task>();
+        Amplify.API.query(
+                ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
+                response -> {
+                    for (Task task : response.getData()) {
+                        taskList.add(task);
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e("MyAmplifyApp", "Query failure", error)
+        );
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskRecyclerView.setAdapter(new TaskAdapter(taskList));
+
+
 
     }
-        ////////////////////// for settings ->  sharedPreferences (username)
 
-        @Override
-         protected void onResume(){
-            super.onResume();
+    ////////////////////// for settings ->  sharedPreferences (username)
 
-            String userNameTasks = "Task";
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            String userName = sharedPreferences.getString("userName" , "username");
+        String userNameTasks = "Task";
 
-            TextView userNameview = findViewById(R.id.userNameTasks);
-            userNameview.setText(userName + " " + userNameTasks);
-        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String userName = sharedPreferences.getString("userName", "username");
+
+        TextView userNameview = findViewById(R.id.userNameTasks);
+        userNameview.setText(userName + " " + userNameTasks);
     }
+}
