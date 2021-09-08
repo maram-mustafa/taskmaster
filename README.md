@@ -64,6 +64,13 @@
 - check if when click on the item in the recyclerview it will show the detail page or not 
 
 
+## feature tasks (lab 31)
+- in this lab using AWS to save data in database
+![homepage](./ScreenShots/testdatabase.PNG)
+![homepage](./ScreenShots/databasesave.PNG)
+
+
+
 
 
 
