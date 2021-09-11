@@ -66,11 +66,11 @@ public class ExampleInstrumentedTest {
     }
 
 
-    @Test
-    public void userApp2(){
-        onView(withId(R.id.TaskListRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-        onView(withId(R.id.BodyDetail)).check(matches(withText("TASK1")));
-    }
+//    @Test
+//    public void userApp2(){
+//        onView(withId(R.id.TaskListRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+//        onView(withId(R.id.BodyDetail)).check(matches(withText("TASK1")));
+//    }
 
 
 
