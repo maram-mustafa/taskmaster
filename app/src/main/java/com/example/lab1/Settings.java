@@ -2,6 +2,7 @@ package com.example.lab1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +30,9 @@ public class Settings extends AppCompatActivity {
 
                 sharedPreferencesEditor.putString("userName" , userName);
                 sharedPreferencesEditor.apply();
+
+                Intent goToHome = new Intent(Settings.this, MainActivity.class);
+                startActivity(goToHome);
 
             }
         });

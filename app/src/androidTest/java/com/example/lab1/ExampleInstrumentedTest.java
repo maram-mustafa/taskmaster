@@ -7,6 +7,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Rule;
@@ -38,6 +39,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
+@Ignore("This test will be ignored")
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
@@ -49,7 +51,7 @@ public class ExampleInstrumentedTest {
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    // test name from setting if its display on main activity
+//     test name from setting if its display on main activity
 
     @Test
     public void userApp(){
@@ -66,11 +68,11 @@ public class ExampleInstrumentedTest {
     }
 
 
-//    @Test
-//    public void userApp2(){
-//        onView(withId(R.id.TaskListRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
-//        onView(withId(R.id.BodyDetail)).check(matches(withText("TASK1")));
-//    }
+    @Test
+    public void userApp2(){
+        onView(withId(R.id.TaskListRecycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(withId(R.id.BodyDetail)).check(matches(withText("TASK1")));
+    }
 
 
 
