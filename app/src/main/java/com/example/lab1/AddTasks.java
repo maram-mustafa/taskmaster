@@ -19,6 +19,11 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -91,13 +96,47 @@ public class AddTasks extends AppCompatActivity {
                 Intent goToHome = new Intent(AddTasks.this, MainActivity.class);
                 startActivity(goToHome);
 
-
-
-
             }
         });
-        
+        //////////////////////////////////////// lab 37
+        Button addnBtn = findViewById(R.id.addPic);
+
+        addnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickFile();
+            }
+        });
     }
 
+    String fileName ="";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        File file = new File(data.getData().getPath());
+        fileName=file.getName();
+
+        try {
+            InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
+            Amplify.Storage.uploadInputStream(
+                    fileName,
+                    exampleInputStream,
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+            );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void pickFile () {
+        Intent selctedFile = new Intent(Intent.ACTION_GET_CONTENT);
+        selctedFile.setType(("*/*"));
+        selctedFile = Intent.createChooser(selctedFile, "Select File");
+        startActivityForResult(selctedFile, 1234);
+        Toast.makeText(getApplicationContext(), "you added a new pic", Toast.LENGTH_LONG).show();
+
+    }
 
 }
