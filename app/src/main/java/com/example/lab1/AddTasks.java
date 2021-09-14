@@ -9,11 +9,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.List;
 
@@ -47,17 +51,42 @@ public class AddTasks extends AppCompatActivity {
 //
 //                Toast.makeText(getApplicationContext(), "submitted!", Toast.LENGTH_SHORT).show();
 
-                Task task = Task.builder()
-                        .title(title.getText().toString())
-                        .body(body.getText().toString())
-                        .status(state.getText().toString())
-                        .build();
+                ///////////////////////////////////////////////////////////////////////////////////
 
-                Amplify.API.mutate(
-                        ModelMutation.create(task),
-                        response -> Log.i("MyAmplifyApp", "Added task with id: " + response.getData().getId()),
-                        error -> Log.e("MyAmplifyApp", "Create failed", error)
+
+                RadioGroup radioGroup = findViewById(R.id.radioGroup2);
+                int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = findViewById(radioButtonId);
+                String name = radioButton.getText().toString();
+
+                StringBuilder teamId = new StringBuilder();
+
+                Amplify.API.query(
+                        ModelQuery.list(Team.class),
+                        response -> {
+                            for (Team team : response.getData()) {
+                                if (team.getName().equals(name)) {
+                                    teamId.append(team.getId());
+                                }
+                            }
+                            Task task = Task.builder()
+                                    .teamId(teamId.toString())
+                                    .title(title.getText().toString())
+                                    .body(body.getText().toString())
+                                    .status(state.getText().toString())
+                                    .build();
+
+                            Amplify.API.mutate(
+                                    ModelMutation.create(task),
+                                    response1 -> Log.i("MyAmplifyApp", "Added task with id: " + response1.getData().getId()),
+                                    error -> Log.e("MyAmplifyApp", "Create failed", error)
+                            );
+
+                        },
+                        error -> Log.e("MyAmplifyApp", "Query failure", error)
+
                 );
+
                 Toast.makeText(getApplicationContext(), "submitted!", Toast.LENGTH_SHORT).show();
                 Intent goToHome = new Intent(AddTasks.this, MainActivity.class);
                 startActivity(goToHome);

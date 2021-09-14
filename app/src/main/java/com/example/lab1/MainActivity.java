@@ -21,20 +21,24 @@ import android.widget.TextView;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    String teamName= "" ;
+    StringBuilder teamId= new StringBuilder();
 
 //    AppDatabase appDatabase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         /////////////////////////////////////////// for api
         try {
             // Add these lines to add the AWSApiPlugin plugins
@@ -168,7 +172,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         /////////////////////////////// lab 32
+        List<Task> taskList = new ArrayList<Task>();
         RecyclerView taskRecyclerView = findViewById(R.id.TaskListRecycler);
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskRecyclerView.setAdapter(new TaskAdapter(taskList));
 
         Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback(){
             @Override
@@ -178,22 +185,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        List<Task> taskList = new ArrayList<Task>();
+
         Amplify.API.query(
-                ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
+                ModelQuery.list(Team.class),
                 response -> {
-                    for (Task task : response.getData()) {
-                        taskList.add(task);
+                    for (Team team : response.getData()) {
+                        if (team.getName().equals(teamName)) {
+                            teamId.append(team.getId());
+                        }
                     }
-                    handler.sendEmptyMessage(1);
+                    Amplify.API.query(
+                            ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
+                            response1 -> {
+                                for (Task task : response1.getData()) {
+                                    taskList.add(task);
+                                }
+                                handler.sendEmptyMessage(1);
+                            },
+                            error -> Log.e("MyAmplifyApp", "Query failure", error)
+                    );
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskRecyclerView.setAdapter(new TaskAdapter(taskList));
-
-
-
     }
 
     ////////////////////// for settings ->  sharedPreferences (username)

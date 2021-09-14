@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lab1">
         <activity
+            android:name=".ConfirmSignUp"
+            android:exported="true" />
+        <activity
+            android:name=".LogIn"
+            android:exported="true" />
+        <activity
+            android:name=".SignUp"
+            android:exported="true" />
+        <activity
             android:name=".Detail"
             android:exported="true" />
         <activity
