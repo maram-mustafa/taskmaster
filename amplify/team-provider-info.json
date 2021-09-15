@@ -1,20 +1,27 @@
 {
-  "taskenv": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-taskmaster-taskenv-172004-authRole",
-      "UnauthRoleArn": "arn:aws:iam::157126543706:role/amplify-taskmaster-taskenv-172004-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::157126543706:role/amplify-taskmaster-taskenv-172004-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-taskmaster-taskenv-172004-deployment",
-      "UnauthRoleName": "amplify-taskmaster-taskenv-172004-unauthRole",
-      "StackName": "amplify-taskmaster-taskenv-172004",
-      "StackId": "arn:aws:cloudformation:us-east-1:157126543706:stack/amplify-taskmaster-taskenv-172004/fc6bca20-0fe6-11ec-8d70-0e765a9edd1f",
-      "AmplifyAppId": "d2lxpi0xo15axh"
-    },
-    "categories": {
-      "auth": {
-        "taskmastere5025495": {}
-      }
+    "taskenv": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-taskmaster-taskenv-172004-authRole",
+            "UnauthRoleArn": "arn:aws:iam::157126543706:role/amplify-taskmaster-taskenv-172004-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::157126543706:role/amplify-taskmaster-taskenv-172004-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-taskmaster-taskenv-172004-deployment",
+            "UnauthRoleName": "amplify-taskmaster-taskenv-172004-unauthRole",
+            "StackName": "amplify-taskmaster-taskenv-172004",
+            "StackId": "arn:aws:cloudformation:us-east-1:157126543706:stack/amplify-taskmaster-taskenv-172004/fc6bca20-0fe6-11ec-8d70-0e765a9edd1f",
+            "AmplifyAppId": "d2lxpi0xo15axh"
+        },
+        "categories": {
+            "auth": {
+                "taskmastere5025495": {}
+            },
+            "notifications": {
+                "Pinpoint": {
+                    "Name": "taskmasterj41AS-taskenv",
+                    "Id": "95332eb7aadc479da0118d50b5ca34cc",
+                    "Region": "us-east-1"
+                }
+            }
+        }
     }
-  }
 }
